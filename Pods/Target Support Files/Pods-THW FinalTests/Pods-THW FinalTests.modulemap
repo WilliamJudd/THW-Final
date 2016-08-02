@@ -1,0 +1,6 @@
+framework module Pods_THW_FinalTests {
+  umbrella header "Pods-THW FinalTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

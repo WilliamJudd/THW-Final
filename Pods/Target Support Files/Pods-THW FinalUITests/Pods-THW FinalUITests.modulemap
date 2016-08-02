@@ -1,0 +1,6 @@
+framework module Pods_THW_FinalUITests {
+  umbrella header "Pods-THW FinalUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

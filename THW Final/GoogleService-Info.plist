@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>280652776772-dudfc3an9if45i8rs8jf80g3j69kucf9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.280652776772-dudfc3an9if45i8rs8jf80g3j69kucf9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyApEZurRmUYs2n6WTvlrKeNs3O815eovGI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>280652776772</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.WilliamJudd.THW-Final</string>
+	<key>PROJECT_ID</key>
+	<string>thw-ipad</string>
+	<key>STORAGE_BUCKET</key>
+	<string>thw-ipad.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:280652776772:ios:42e69d23e0e745ab</string>
+	<key>DATABASE_URL</key>
+	<string>https://thw-ipad.firebaseio.com</string>
+</dict>
+</plist>
