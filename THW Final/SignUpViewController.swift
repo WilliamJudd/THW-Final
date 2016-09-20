@@ -19,7 +19,7 @@ class SignUpViewController: UIViewController {
     let SECRET_KEY = "3FF94249-8318-1FF9-FFF8-EB47BC5CA700"
     let VERSION_NUM = "v1"
 //    var recordRef: Firebase!
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var listId: String!
     var backendless = Backendless.sharedInstance()
     
@@ -50,12 +50,12 @@ class SignUpViewController: UIViewController {
         
         deviceID.text = appDelegate.deviceID
         resetForm(self)
-        firstName.addTarget(self, action: #selector(SignUpViewController.validateForm), forControlEvents: UIControlEvents.EditingChanged)
-        lastName.addTarget(self, action: #selector(SignUpViewController.validateForm), forControlEvents: UIControlEvents.EditingChanged)
-        email.addTarget(self, action: #selector(SignUpViewController.validateForm), forControlEvents: UIControlEvents.EditingChanged)
-        city.addTarget(self, action: #selector(SignUpViewController.validateForm), forControlEvents: UIControlEvents.EditingChanged)
-        backendless.initApp(APP_ID, secret:SECRET_KEY, version:VERSION_NUM)
-        switch1!.addTarget(self, action: #selector(SignUpViewController.stateChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        firstName.addTarget(self, action: #selector(SignUpViewController.validateForm), for: UIControlEvents.editingChanged)
+        lastName.addTarget(self, action: #selector(SignUpViewController.validateForm), for: UIControlEvents.editingChanged)
+        email.addTarget(self, action: #selector(SignUpViewController.validateForm), for: UIControlEvents.editingChanged)
+        city.addTarget(self, action: #selector(SignUpViewController.validateForm), for: UIControlEvents.editingChanged)
+        backendless?.initApp(APP_ID, secret:SECRET_KEY, version:VERSION_NUM)
+        switch1!.addTarget(self, action: #selector(SignUpViewController.stateChanged(_:)), for: UIControlEvents.valueChanged)
         switchStateLabel.text = "Yes"
         dropdownAction()
     }
@@ -69,12 +69,12 @@ class SignUpViewController: UIViewController {
         ]
         
         dropDown.selectionAction = { [unowned self] (index, item) in
-            self.actionButton.setTitle(item, forState: .Normal)
-            self.actionButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+            self.actionButton.setTitle(item, for: UIControlState())
+            self.actionButton.setTitleColor(UIColor.black, for: UIControlState())
             self.stateCheck.alpha = 1
             
             if self.stateCheck.alpha == 1 {
-                self.birthdateTextField.enabled = true
+                self.birthdateTextField.isEnabled = true
             }
             
             
@@ -87,10 +87,10 @@ class SignUpViewController: UIViewController {
     }
     
     
-    @IBAction func showOrDismiss(sender: AnyObject) {
+    @IBAction func showOrDismiss(_ sender: AnyObject) {
         
         
-        if dropDown.hidden {
+        if dropDown.isHidden {
             dropDown.show()
         }else{
             dropDown.hide()
@@ -101,24 +101,24 @@ class SignUpViewController: UIViewController {
     
     ///////////////////////////// Birthday Datepicker ////////////////////////////////////////
     
-    @IBAction func textFieldEditing(sender: UITextField) {
+    @IBAction func textFieldEditing(_ sender: UITextField) {
         
         let datePickerView:UIDatePicker = UIDatePicker()
-        datePickerView.datePickerMode = UIDatePickerMode.Date
+        datePickerView.datePickerMode = UIDatePickerMode.date
         sender.inputView = datePickerView
-        datePickerView.addTarget(self, action: #selector(SignUpViewController.datePickerValueChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        datePickerView.addTarget(self, action: #selector(SignUpViewController.datePickerValueChanged(_:)), for: UIControlEvents.valueChanged)
     }
-    func datePickerValueChanged(sender:UIDatePicker) {
+    func datePickerValueChanged(_ sender:UIDatePicker) {
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-        birthdateTextField.text = dateFormatter.stringFromDate(sender.date)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.timeStyle = DateFormatter.Style.none
+        birthdateTextField.text = dateFormatter.string(from: sender.date)
         birthdayCheck.alpha = 1
         
         if birthdayCheck.alpha == 1 {
             
-            self.nextButton.enabled = true
+            self.nextButton.isEnabled = true
         }
     }
     
@@ -126,9 +126,9 @@ class SignUpViewController: UIViewController {
     //////////////////////////// Email Switch ///////////////////////////////////////////////
     
     
-    func stateChanged(switchState: UISwitch) {
+    func stateChanged(_ switchState: UISwitch) {
         
-        if switchState.on {
+        if switchState.isOn {
             switchStateLabel.text = "Yes"
             print(switchStateLabel.text)
         }else{
@@ -160,12 +160,12 @@ class SignUpViewController: UIViewController {
             let user = BackendlessUser()
             user.setProperty("firstname", object: self.firstName.text)
             user.setProperty("lastname", object: self.lastName.text)
-            user.email = self.email.text
+            user.email = self.email.text as NSString!
             user.setProperty("state", object: self.actionButton.titleLabel?.text)
             user.setProperty("city", object: self.city.text)
             user.setProperty("birthdate", object: self.birthdateTextField.text)
             user.password = "password"
-            let registeredUser = self.backendless.userService.registering(user)
+            let registeredUser = self.backendless?.userService.registering(user)
             print("User has been registered (SYNC): \(registeredUser)")
             
 //            self.firebase()
@@ -174,11 +174,11 @@ class SignUpViewController: UIViewController {
                        
                catchblock: { (exception) -> Void in
                 print("Server reported an error: \(exception)" )
-                let alertController = UIAlertController(title: "Oops", message: "An error has occurred, please try again", preferredStyle: .Alert)
-                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                let alertController = UIAlertController(title: "Oops", message: "An error has occurred, please try again", preferredStyle: .alert)
+                let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
                 }
                 alertController.addAction(OKAction)
-                self.presentViewController(alertController, animated: true) {
+                self.present(alertController, animated: true) {
                 }
         })
     }
@@ -192,17 +192,17 @@ class SignUpViewController: UIViewController {
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         firstNameCheck.alpha = firstName.text!.characters.count > 1 ? 1 : 0
         lastNameCheck.alpha = lastName.text!.characters.count > 1 ? 1 : 0
-        emailCheck.alpha = emailTest.evaluateWithObject(email.text) ? 1 : 0
+        emailCheck.alpha = emailTest.evaluate(with: email.text) ? 1 : 0
         cityCheck.alpha = city.text!.characters.count > 1 ? 1 : 0
         
         if cityCheck.alpha == 1 {
             
-            actionButton.userInteractionEnabled = true
+            actionButton.isUserInteractionEnabled = true
         }
     }
     
     
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {   //delegate method
+    func textFieldShouldReturn(_ textField: UITextField!) -> Bool {   //delegate method
         if textField == firstName {
             lastName.becomeFirstResponder()
         }
@@ -227,14 +227,14 @@ class SignUpViewController: UIViewController {
     }
     
     
-    @IBAction func next(sender: AnyObject) {
+    @IBAction func next(_ sender: AnyObject) {
         print(self.actionButton.titleLabel?.text)
         
         self.registerUser()
-        self.performSegueWithIdentifier("picks", sender: nil)
+        self.performSegue(withIdentifier: "picks", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         if segue.identifier == "picks" {
 //            let picksViewController = segue.destinationViewController as! PicksViewController
 //            picksViewController.recordRef = recordRef
@@ -243,7 +243,7 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    @IBAction func resetForm(sender: AnyObject) {
+    @IBAction func resetForm(_ sender: AnyObject) {
         firstName.text = ""
         lastName.text = ""
         email.text = ""
@@ -255,15 +255,15 @@ class SignUpViewController: UIViewController {
         stateCheck.alpha = 0
         cityCheck.alpha = 0
         birthdayCheck.alpha = 0
-        nextButton.enabled = false
-        birthdateTextField.enabled = false
-        actionButton.userInteractionEnabled = false
+        nextButton.isEnabled = false
+        birthdateTextField.isEnabled = false
+        actionButton.isUserInteractionEnabled = false
     }
     
     
-    @IBAction func backPressed(sender: AnyObject) {
+    @IBAction func backPressed(_ sender: AnyObject) {
     
-    [self.dismissViewControllerAnimated(true, completion: { 
+    [self.dismiss(animated: true, completion: { 
         
     })]
     

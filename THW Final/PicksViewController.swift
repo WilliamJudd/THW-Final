@@ -15,9 +15,9 @@ import AVFoundation
 
 class PicksViewController: UIViewController {
     
-    var timer: NSTimer!
+    var timer: Timer!
 //    var recordRef: Firebase!
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     
     @IBOutlet weak var greatn: UIButton!
@@ -40,61 +40,61 @@ class PicksViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.6, target: self, selector: #selector(PicksViewController.alerter), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(PicksViewController.alerter), userInfo: nil, repeats: false)
         
     }
     
     func alerter(){
         
-        SweetAlert().showAlert("Sweet!", subTitle: "Now pick your three favorite flavors.", style: AlertStyle.CustomImag(imageFile: "thumbsUp.jpg"), buttonTitle: "Ok")
+        SweetAlert().showAlert("Sweet!", subTitle: "Now pick your three favorite flavors.", style: AlertStyle.customImag(imageFile: "thumbsUp.jpg"), buttonTitle: "Ok")
         timer.invalidate()
         
     }
     
     
-    @IBAction func teamProgressButtonTapped(sender: UIButton!) {
+    @IBAction func teamProgressButtonTapped(_ sender: UIButton!) {
         
-        greatn.setImage(UIImage(named: "GNW"), forState: .Normal)
-        greatn.setImage(UIImage(named: "GNB"), forState: .Selected)
+        greatn.setImage(UIImage(named: "GNW"), for: UIControlState())
+        greatn.setImage(UIImage(named: "GNB"), for: .selected)
         
-        whitek.setImage(UIImage(named: "WKGW"), forState: .Normal)
-        whitek.setImage(UIImage(named: "WKGB"), forState: .Selected)
+        whitek.setImage(UIImage(named: "WKGW"), for: UIControlState())
+        whitek.setImage(UIImage(named: "WKGB"), for: .selected)
         
-        redMusc.setImage(UIImage(named: "MRMW"), forState: .Normal)
-        redMusc.setImage(UIImage(named: "MRMB"), forState: .Selected)
+        redMusc.setImage(UIImage(named: "MRMW"), for: UIControlState())
+        redMusc.setImage(UIImage(named: "MRMB"), for: .selected)
         
-        whiteMusc.setImage(UIImage(named: "MWMW"), forState: .Normal)
-        whiteMusc.setImage(UIImage(named: "MWMB"), forState: .Selected)
+        whiteMusc.setImage(UIImage(named: "MWMW"), for: UIControlState())
+        whiteMusc.setImage(UIImage(named: "MWMB"), for: .selected)
         
-        blueberry.setImage(UIImage(named: "BBW"), forState: .Normal)
-        blueberry.setImage(UIImage(named: "BBB"), forState: .Selected)
+        blueberry.setImage(UIImage(named: "BBW"), for: UIControlState())
+        blueberry.setImage(UIImage(named: "BBB"), for: .selected)
         
-        fineBlack.setImage(UIImage(named: "FBW"), forState: .Normal)
-        fineBlack.setImage(UIImage(named: "FBB"), forState: .Selected)
+        fineBlack.setImage(UIImage(named: "FBW"), for: UIControlState())
+        fineBlack.setImage(UIImage(named: "FBB"), for: .selected)
         
-        properP.setImage(UIImage(named: "PPW"), forState: .Normal)
-        properP.setImage(UIImage(named: "PPB"), forState: .Selected)
+        properP.setImage(UIImage(named: "PPW"), for: UIControlState())
+        properP.setImage(UIImage(named: "PPB"), for: .selected)
         
-        apple.setImage(UIImage(named: "AW"), forState: .Normal)
-        apple.setImage(UIImage(named: "AB"), forState: .Selected)
+        apple.setImage(UIImage(named: "AW"), for: UIControlState())
+        apple.setImage(UIImage(named: "AB"), for: .selected)
         
-        straw.setImage(UIImage(named: "SSW"), forState: .Normal)
-        straw.setImage(UIImage(named: "SSB"), forState: .Selected)
+        straw.setImage(UIImage(named: "SSW"), for: UIControlState())
+        straw.setImage(UIImage(named: "SSB"), for: .selected)
         
         if sender == sender {
             
-            sender.selected = !sender.selected
+            sender.isSelected = !sender.isSelected
             
             if sender.state.rawValue == 5  {
                 
-                wines.addObject((sender.titleLabel?.text)!)
-                wines2.addObject(sender.imageForState(.Selected)!)
-                (sender.imageForState(.Selected)!)
+                wines.add((sender.titleLabel?.text)!)
+                wines2.add(sender.image(for: .selected)!)
+                (sender.image(for: .selected)!)
             }else{
-                wines.removeObject((sender.titleLabel?.text)!)
-                wines2.removeObject(sender.imageForState(.Selected)!)
+                wines.remove((sender.titleLabel?.text)!)
+                wines2.remove(sender.image(for: .selected)!)
                 
-                (sender.imageForState(.Selected)!)
+                (sender.image(for: .selected)!)
             }
         }
         
@@ -107,7 +107,7 @@ class PicksViewController: UIViewController {
         
         if wines.count == (3){
             
-            SweetAlert().showAlert("Good job!", subTitle: "Claim your prize!", style: AlertStyle.Success, buttonTitle: "Ok", buttonColor:UIColor.colorFromRGB(0xD0D0D0)){ (isOtherButton) -> Void in
+            SweetAlert().showAlert("Good job!", subTitle: "Claim your prize!", style: AlertStyle.success, buttonTitle: "Ok", buttonColor:UIColor.colorFromRGB(0xD0D0D0)){ (isOtherButton) -> Void in
                 
                 if isOtherButton == true {
                     
@@ -122,13 +122,13 @@ class PicksViewController: UIViewController {
     }
     func lastPage(){
         
-        performSegueWithIdentifier("thanks", sender: self)
+        performSegue(withIdentifier: "thanks", sender: self)
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         if segue.identifier == "thanks" {
-            let thanksViewController = segue.destinationViewController as! TYViewController
+            let thanksViewController = segue.destination as! TYViewController
 //            thanksViewController.recordRef = recordRef
             thanksViewController.wines = wines
             thanksViewController.wines = wines2

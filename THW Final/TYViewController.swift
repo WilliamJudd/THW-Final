@@ -11,7 +11,7 @@ import Firebase
 
 class TYViewController: UIViewController {
     
-    var timer: NSTimer!
+    var timer: Timer!
 //    var recordRef: Firebase!
     var wines : NSMutableArray = NSMutableArray()
     var wines2 : NSMutableArray = NSMutableArray()
@@ -20,14 +20,14 @@ class TYViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        timer = NSTimer.scheduledTimerWithTimeInterval(8.0, target: self, selector: #selector(TYViewController.timeToMoveOn), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: 8.0, target: self, selector: #selector(TYViewController.timeToMoveOn), userInfo: nil, repeats: false)
         
         // Do any additional setup after loading the view.
     }
     
     
     func timeToMoveOn() {
-        self.performSegueWithIdentifier("unwind4", sender: self)
+        self.performSegue(withIdentifier: "unwind4", sender: self)
         timer.invalidate()
     }
     
